@@ -41,6 +41,32 @@ bool ConcurrentHashMap::member(string key){
 	return false;
 }
 
+/**********************************************************************************************/
+/* maxThrWrapper y maxThr funciones que usa cada threada para calcular el máximo de un hashmap*/
+void* ConcurrentHashMap::maxThrWrapper(void * args){
+	infoThread * info = (infoThread *) args ;
+	return info->context->maxThr(info);
+}
+void * ConcurrentHashMap::maxThr(void * args){
+	infoThread* inf = (infoThread*) args;
+	int next;
+	while(next = atomic_fetch_add(inf->siguiente,1), next  < 26 ){
+		/* Vamos a la proxima entrada de la tabla para recorrer. */
+		for (auto it = tabla[next]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
+			Elem* m;
+			do {
+				m =  (* (inf->max)).load();
+				if( m == NULL || it.Siguiente().second > m->second ){
+					// Actualizo el máximo
+					atomic_compare_exchange_weak(inf->max, &m , &it.Siguiente());
+				 }
+			} while( it.Siguiente().second > ((*inf->max).load())->second );
+		}
+	}
+	/* Si no quedan mas entradas de la tabla para reccorer terminamos. */
+	return NULL;
+}
+
 /************************************ maximum *************************************************/
 pair<string,unsigned int> ConcurrentHashMap::maximum(unsigned int nt){
 	atomic<int> siguiente(0);
