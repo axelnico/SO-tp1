@@ -53,14 +53,10 @@ void * ConcurrentHashMap::maxThr(void * args){
 	while(next = atomic_fetch_add(inf->siguiente,1), next  < 26 ){
 		/* Vamos a la proxima entrada de la tabla para recorrer. */
 		for (auto it = tabla[next]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
-			Elem* m;
-			do {
-				m =  (* (inf->max)).load();
-				if( m == NULL || it.Siguiente().second > m->second ){
-					// Actualizo el máximo
-					atomic_compare_exchange_weak(inf->max, &m , &it.Siguiente());
-				 }
-			} while( it.Siguiente().second > ((*inf->max).load())->second );
+			while( (* (inf->max)).load() == NULL || it.Siguiente().second > ((*inf->max).load())->second ){
+				Elem* m = (* (inf->max)).load();
+				atomic_compare_exchange_weak(inf->max, &m , &it.Siguiente());
+			}
 		}
 	}
 	/* Si no quedan mas entradas de la tabla para reccorer terminamos. */
