@@ -14,4 +14,6 @@ using namespace std;
 
 typedef pair<string,unsigned int> Elem;
 
-class ConcurrentHashMap {}
+class ConcurrentHashMap {};
+
+#endif /* LISTA_ATOMICA_H__ */
