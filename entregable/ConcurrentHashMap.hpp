@@ -14,6 +14,13 @@ using namespace std;
 
 typedef pair<string,unsigned int> Elem;
 
-class ConcurrentHashMap {};
+class ConcurrentHashMap {
 
-#endif /* LISTA_ATOMICA_H__ */
+	private:
+
+		int hash(string s){
+			return s[0];
+		}
+};
+
+#endif /* CONCURRENT_HASH_MAP_H__ */
