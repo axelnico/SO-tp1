@@ -28,6 +28,10 @@ class ConcurrentHashMap {
 
 	pthread_mutex_t _locks[26];
 
+	void count_words(string archivo,*ConcurrentHashMap);
+
+	void * count_words_threads(void * args);
+
 	/***********************************************/
 	static void* maxThrWrapper(void * args);
 
@@ -45,5 +49,18 @@ class ConcurrentHashMap {
 	/****************** maximum ********************/
 	pair<string,unsigned int> maximum(unsigned int nt);
 };
+
+/********************* Estructura y funciones para Ej 2.4 ***************************/
+struct infoFile {
+	infoFile(): siguiente(nullptr), words(nullptr),context(nullptr) {}
+	atomic<int>* siguiente;
+	vector<string> *words;
+	ConcurrentHashMap* context;
+};
+
+	ConcurrentHashMap count_words(string archivo);
+
+	ConcurrentHashMap count_words(list<string>archs);
+
 
 #endif /* CONCURRENT_HASH_MAP_H__ */
