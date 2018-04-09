@@ -27,9 +27,13 @@ public:
 	}
 
 	void push_front(const T& val) {
+		// Creo un nuevo nodo para agregar al inicio de la lista
 		Nodo *new_head = new Nodo(val);
         do {
 			new_head->_next = _head.load(std::memory_order_relaxed);
+			// Compara atomicamente el valor del actual nodo inicial con el siguiente del nuevo nodo inicial
+			// Si son iguales reemplaza el valor del actual nodo incial con el nuevo nodo creado
+			// Si no son iguales esta operacion retorna falso y se vuelve a recuperar el nodo inicial
 		} while (!std::atomic_compare_exchange_weak(&_head, &new_head->_next, new_head));
 	}
 

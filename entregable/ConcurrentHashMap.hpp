@@ -21,8 +21,11 @@ class ConcurrentHashMap {
 		/* Info que le pasamos a un thread para calcular el maximo */
 	struct infoThread {
 		infoThread(): siguiente(nullptr),max(nullptr),context(nullptr) {}
+		// Siguiente se usa para llevar registro de las entradas de la tabla analizadas
 		atomic<int>* siguiente;
+		// Max es el elemento maximo encontrado
 		atomic<Elem* > * max;
+		// Context es el HashMap compartido que van a usar los threads para analizar
 		ConcurrentHashMap* context;
 	};
 
@@ -32,16 +35,13 @@ class ConcurrentHashMap {
 
 	void * count_words_threads(void * args);
 
-	/***********************************************/
-	static void* maxThrWrapper(void * args);
-
-	void * maxThr(void * args);
+	void * max_thread(void * args);
 
 	
-
-		int hash(string s){
-			return s[0];
-		}
+    // Función de hash que devuelve el primer caracter del string
+	int hash(string s){
+		return s[0];
+	}
 
 	public: 
 
@@ -52,15 +52,17 @@ class ConcurrentHashMap {
 
 /********************* Estructura y funciones para Ej 2.4 ***************************/
 struct infoFile {
-	infoFile(): siguiente(nullptr), words(nullptr),context(nullptr) {}
+	infoFile(): siguiente(nullptr), files(nullptr),context(nullptr) {}
 	atomic<int>* siguiente;
-	vector<string> *words;
+	vector<string> *files;
 	ConcurrentHashMap* context;
 };
 
 	ConcurrentHashMap count_words(string archivo);
 
 	ConcurrentHashMap count_words(list<string>archs);
+
+	ConcurrentHashMap count_words(unsigned int n, list<string>files);
 
 
 #endif /* CONCURRENT_HASH_MAP_H__ */
