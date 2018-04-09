@@ -92,7 +92,7 @@ pair<string,unsigned int> ConcurrentHashMap::maximum(unsigned int nt){
 		vars[tid].siguiente = &siguiente;
 		vars[tid].max = &maximo;
 		vars[tid].context = this;
-		pthread_create(&threads[tid],NULL,&ConcurrentHashMap::max_thread,& (vars[tid]) );
+		pthread_create(&threads[tid],NULL,max_thread, & (vars[tid]));
 	}
 	/* Esperamos que todos los threads terminen */
 	for (size_t tid = 0; tid < nt; tid++) pthread_join(threads[tid],NULL);
@@ -103,10 +103,10 @@ pair<string,unsigned int> ConcurrentHashMap::maximum(unsigned int nt){
 	return res;
 }
 
-void count_words(string archivo,*ConcurrentHashMap h){
+void count_words(string archivo,ConcurrentHashMap* h){
 
 	string word;
-	char space_delimiter = " ";
+	char space_delimiter = ' ';
 	// Abrimos el archivo
 	ifstream file(archivo);
 	if (file) {
@@ -234,7 +234,7 @@ void * count_words_nthreads_2(void * args){
     	string archivo = (*inf.files)[next];
     	ifstream file(archivo);
 		string word;
-		char space_delimiter = " ";
+		char space_delimiter = ' ';
 		if (file) {
 			while(getline(file,word,space_delimiter)){
 				(*h)[next].addAndInc(word);

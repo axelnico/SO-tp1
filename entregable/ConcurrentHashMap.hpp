@@ -43,9 +43,9 @@ class ConcurrentHashMap {
 		return s[0];
 	}
 
-	Lista<pair<string,unsigned int> >* tabla[26];
-
 	public: 
+
+	Lista<pair<string,unsigned int> >* tabla[26];
 
 	/***************** Constructor *****************/
 	ConcurrentHashMap();
