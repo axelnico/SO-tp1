@@ -159,13 +159,13 @@ void * count_words_nthreads(void * args){
 	infoFile inf = *(infoFile*) args;
 
 	int next;
-	int last = inf.words->size();
+	int last = inf.files->size();
 
 	ConcurrentHashMap *h = inf.context;
 	next = atomic_fetch_add(inf.siguiente,1);
 	// Mientras no haya visto todos los archivos de texto
 	while(next < last){
-    	string file = (*inf.words)[next];
+    	string file = (*inf.files)[next];
     	count_words(file,h);
     	next = atomic_fetch_add(inf.siguiente,1);
 	}
@@ -207,5 +207,125 @@ ConcurrentHashMap count_words(unsigned int n, list<string>files){
   }
 
   return h;
+
+}
+
+
+/**** Función que utilizarán los p_archivos threads para leer los archivos**********/
+void * count_words_nthreads_2(void * args){
+
+	infoFileVector inf = *(infoFileVector*) args;
+
+	int next;
+	int last = inf.files->size();
+
+	vector<ConcurrentHashMap> *h = inf.hashMaps;
+	next = atomic_fetch_add(inf.siguiente,1);
+	// Mientras no hayamos contado las palabras de todos los archivos
+	while(next < last){
+    	string archivo = (*inf.files)[next];
+    	ifstream file(archivo);
+		string word;
+		char space_delimiter = " ";
+		if (file) {
+			while(getline(file,word,space_delimiter)){
+				(*h)[next].addAndInc(word);
+			}
+		}
+		file.close();
+		next = atomic_fetch_add(inf.siguiente,1);
+	}
+
+	return NULL;
+}
+
+
+/**** Función que utilizarán los p_máximos threads para calcular el máximo **********/
+void * count_row(void * args){
+	infoFileFind inf = *(infoFileFind*) args;
+
+	int next;
+	vector<ConcurrentHashMap> *h = inf.hashMaps;
+	ConcurrentHashMap *hGral = inf.hashMapGral;
+	next = atomic_fetch_add(inf.row, 1);
+	while(next < 26){
+		int i;
+		for (i = 0; i < h->size(); i++){
+			auto it = (*h)[i].tabla[next]->CrearIt();
+			for(auto it = (*h)[i].tabla[next]->CrearIt(); it.HaySiguiente(); it.Avanzar()){
+				string key = it.Siguiente().first;
+				int j;
+				for (j = 0; j < it.Siguiente().second; j++) (*hGral).addAndInc(key);
+			}
+		}
+		next = atomic_fetch_add(inf.row, 1);
+	}
+
+	return NULL;
+}
+
+
+/*************************Calcula el maximo usando p_archivos threads para leer los archivos y p_maximos threads para calcular el maximo ************************/
+
+pair<string, unsigned int>maximum(unsigned int p_archivos,unsigned int p_maximos, list<string>archs){
+
+
+	// Creo un vector con un hashsmap por cada archivo
+	int n = archs.size();
+	vector<ConcurrentHashMap> hashMaps(n);
+
+	// Creo p_archivos threads
+	pthread_t threads[p_archivos];
+	int tid;
+	// Creo p_archivos estructuras que van a usar los threads
+	infoFileVector vars[p_archivos];
+
+	// Creo un vector con los nombres de los archivos
+	vector<string> files;
+	for (auto it = archs.begin(); it != archs.end(); it++){
+		string s = *it;
+		files.push_back(s);
+	}
+
+	atomic<int> siguiente(0);
+
+	for(tid = 0; tid < p_archivos ; tid++){
+		vars[tid].siguiente = &siguiente;
+		vars[tid].files = &files;
+		vars[tid].hashMaps = &hashMaps;
+		pthread_create(&threads[tid], NULL, count_words_nthreads_2, & (vars[tid]));
+	}
+
+	// Esperamos que los p_threads terminen
+	for(tid = 0; tid < p_archivos; tid++){
+		pthread_join(threads[tid], NULL);
+	}
+
+
+
+	// Creo p_maximos threads en el que cada uno irá construyendo de a una fila un hashmap general
+	p_maximos = (p_maximos > 26)? 26 : p_maximos;
+	pthread_t threads_find[p_maximos];
+	infoFileFind vars2[p_maximos];
+	atomic<int> row(0);
+	ConcurrentHashMap hashMapGral;
+
+	for(tid = 0; tid < p_maximos; tid++){
+		vars2[tid].row =&row;
+		vars2[tid].hashMaps = &hashMaps;
+		vars2[tid].hashMapGral = &hashMapGral;
+		pthread_create(&threads_find[tid], NULL, count_row, & (vars2[tid]));
+	}
+
+	// Esperamos que los p_maximos threads terminen
+	for(tid = 0; tid < p_maximos; tid++){
+		pthread_join(threads_find[tid], NULL);
+	}
+
+	// Calculamos el maximo del hashMapGral usando p_maximos threads
+
+	pair<string, unsigned int> max = hashMapGral.maximum(p_maximos);
+
+	return max;
 
 }
