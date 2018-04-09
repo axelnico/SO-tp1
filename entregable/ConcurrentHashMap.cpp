@@ -1,4 +1,4 @@
-#include "ConcurrentHashmap.hpp"
+#include "ConcurrentHashMap.hpp"
 
 using namespace std;
 
@@ -9,6 +9,14 @@ ConcurrentHashMap::ConcurrentHashMap(){
 		tabla[i] = new Lista<Elem>();
 		// Inicializa los mutex
 		pthread_mutex_init(&(_locks[i]), NULL);
+	}
+}
+
+/**************************************** Destructor ******************************************/
+ConcurrentHashMap::~ConcurrentHashMap(){
+	for (size_t i = 0; i < 26; i++) {
+		delete tabla[i];
+		pthread_mutex_destroy(&_locks[i]);
 	}
 }
 

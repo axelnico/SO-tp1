@@ -31,7 +31,7 @@ class ConcurrentHashMap {
 
 	pthread_mutex_t _locks[26];
 
-	void count_words(string archivo,*ConcurrentHashMap);
+	void count_words(string archivo,ConcurrentHashMap* map);
 
 	void * count_words_threads(void * args);
 
@@ -43,8 +43,21 @@ class ConcurrentHashMap {
 		return s[0];
 	}
 
+	Lista<pair<string,unsigned int> >* tabla[26];
+
 	public: 
 
+	/***************** Constructor *****************/
+	ConcurrentHashMap();
+
+	/*************** Destructor ********************/
+	~ConcurrentHashMap();
+
+	/****************** addAndInc ******************/
+	void addAndInc(string key);
+
+	/****************** memeber ********************/
+	bool member(string key);
 		
 	/****************** maximum ********************/
 	pair<string,unsigned int> maximum(unsigned int nt);
