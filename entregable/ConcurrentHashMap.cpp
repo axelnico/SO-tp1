@@ -56,14 +56,15 @@ bool ConcurrentHashMap::member(string key){
 
 /**********************************************************************************************/
 /* max_thread es la funcion que usa cada thread para calcular el máximo de un hashmap*/
-void * ConcurrentHashMap::max_thread(void * args){
+void * max_thread(void * args){
 	infoThread* inf = (infoThread*) args;
+	ConcurrentHashMap *h = inf->context;
 	int next;
 	next = atomic_fetch_add(inf->siguiente,1);
 	// Ejecutamos mientras no hayamos calculado el maximo de cada entrada de la tabla
-	while(next  < 26 ){
+	while(next < 26){
 		/* Vamos a la proxima entrada de la tabla para recorrer. */
-		for (auto it = tabla[next]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
+		for (auto it = h->tabla[next]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
 			// Recorremos todos los elementos de la lista
 			while( (* (inf->max)).load() == NULL || it.Siguiente().second > ((*inf->max).load())->second ){
 				// Mientras no haya maximo o el maximo del elemento analizando es mayor al maximo actual
@@ -108,14 +109,18 @@ void count_words(string archivo,ConcurrentHashMap* h){
 	string word;
 	char space_delimiter = ' ';
 	// Abrimos el archivo
+	//cout << "antes de abrir el archivo " << archivo << endl;
 	ifstream file(archivo);
+	//cout << "despues de abrir el archivo " << archivo << endl;
 	if (file) {
-	 while (getline(file,word,space_delimiter)) {
-	 	// Agregamos cada palabra al hashsmap
-	 	h->addAndInc(word);
-	 }
-	 file.close();
- }
+		//cout << "antes del while" << endl;
+		while (getline(file,word,space_delimiter)) {
+			//cout << "en el while con la palabra " << word << endl;
+	 		// Agregamos cada palabra al hashsmap
+	 		h->addAndInc(word);
+	 	}
+	 	file.close();
+ 	}
 }
 
 /*********** Toma un archivo de texto y devuelve el ConcurrentHashMap cargado con las palabras del archivo. *****/
@@ -183,7 +188,7 @@ void * count_words_nthreads(void * args){
 
 
 /**********************Utilizando n threads calcula la cantidad de palabras de los archivos de texto****************/
-ConcurrentHashMap count_words(unsigned int n, list<string>files){
+ConcurrentHashMap count_words(unsigned int n, list<string> files_list){
 
   ConcurrentHashMap h;
 
@@ -195,7 +200,7 @@ ConcurrentHashMap count_words(unsigned int n, list<string>files){
 
   // Me guardo en un vector los nombres de los archivos
   vector<string> files;
-  for (auto it = files.begin(); it != files.end(); it++){
+  for (auto it = files_list.begin(); it != files_list.end(); it++){
   	string s = *it;
   	files.push_back(s);
   }
@@ -275,7 +280,7 @@ void * count_row(void * args){
 
 /*************************Calcula el maximo usando p_archivos threads para leer los archivos y p_maximos threads para calcular el maximo ************************/
 
-pair<string, unsigned int>maximum(unsigned int p_archivos,unsigned int p_maximos, list<string>archs){
+pair<string, unsigned int> maximum(unsigned int p_archivos,unsigned int p_maximos, list<string>archs){
 
 
 	// Creo un vector con un hashsmap por cada archivo

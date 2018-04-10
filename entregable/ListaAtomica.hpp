@@ -72,7 +72,7 @@ public:
 		}
 
 		bool operator == (const typename Lista::Iterador& otro) const {
-			return _lista._head.load() == otro._lista._head.load() && _nodo_sig == otro._nodo_sig;
+			return _lista->_head.load() == otro._lista._head.load() && _nodo_sig == otro._nodo_sig;
 		}
 
 	private:
