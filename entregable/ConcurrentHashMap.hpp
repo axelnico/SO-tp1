@@ -26,12 +26,12 @@ class ConcurrentHashMap {
 		
 	    // Función de hash que devuelve el primer caracter del string
 		int hash(string s){
-			return s[0];
+			return ((int) s[0] % 26);
 		}
 
 	public:
 
-		Lista<pair<string,unsigned int> >* tabla[26];
+		Lista<Elem >* tabla[26];
 
 		/***************** Constructor *****************/
 		ConcurrentHashMap();
