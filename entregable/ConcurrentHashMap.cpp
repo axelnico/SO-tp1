@@ -13,26 +13,26 @@ ConcurrentHashMap::ConcurrentHashMap(){
 }
 
 /**************************************** Destructor ******************************************/
-ConcurrentHashMap::~ConcurrentHashMap(){
-	for (size_t i = 0; i < 26; i++) {
-		delete tabla[i];
-		pthread_mutex_destroy(&_locks[i]);
-	}
-}
+/**** volamos el destructor porque nos cagaba la copia ****/
+//ConcurrentHashMap::~ConcurrentHashMap(){
+//	for (size_t i = 0; i < 26; i++) {
+//		//delete tabla[i];
+//		pthread_mutex_destroy(&_locks[i]);
+//	}
+//}
 
 /**************************************** addAndInc *******************************************/
 void ConcurrentHashMap::addAndInc(string key){
 	int h = hash(key);
 	/* Agregamos la clave a la lista si no esta */
-	while (!member(key)){
-		// Lockeo a nivel de entrada
-		pthread_mutex_lock(& _locks[h]);
-		if(!member(key)) {
-			tabla[h]->push_front(make_pair(key,0));
-		}
-		pthread_mutex_unlock(& _locks[h]);
-		// Desbloqueo a nivel de entrada
-	}
+    // Lockeo a nivel de entrada
+    pthread_mutex_lock(& _locks[h]);
+    if(!member(key)) {
+        tabla[h]->push_front(make_pair(key,0));
+    }
+    pthread_mutex_unlock(& _locks[h]);
+    // Desbloqueo a nivel de entrada
+
 	/* Incrementamos su valor */
 	for (auto it = tabla[h]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
 		if (it.Siguiente().first == key) {
@@ -112,7 +112,7 @@ void count_words(string archivo,ConcurrentHashMap* h){
 	//cout << "antes de abrir el archivo " << archivo << endl;
 	ifstream file(archivo);
 	//cout << "despues de abrir el archivo " << archivo << endl;
-	if (file) {
+	if (file.is_open()) {
 		//cout << "antes del while" << endl;
 		while (getline(file,word,space_delimiter)) {
 			//cout << "en el while con la palabra " << word << endl;
@@ -128,7 +128,7 @@ ConcurrentHashMap count_words(string archivo){
 
 	ConcurrentHashMap h;
 	count_words(archivo,&h);
-	return h;
+    return h;
 }
 
 /*********** Función que utilizan los threads para contar las palabras*****/

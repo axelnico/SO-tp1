@@ -37,7 +37,7 @@ class ConcurrentHashMap {
 		ConcurrentHashMap();
 
 		/*************** Destructor ********************/
-		~ConcurrentHashMap();
+		//~ConcurrentHashMap();
 
 		/****************** addAndInc ******************/
 		void addAndInc(string key);

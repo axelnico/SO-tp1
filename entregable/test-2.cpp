@@ -8,7 +8,6 @@ int main(void) {
 	int i;
 	
 	h = count_words("corpus");
-	cout << "cree el dicc" << endl;
 	for (i = 0; i < 26; i++) {
 		for (auto it = h.tabla[i]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
 			auto t = it.Siguiente();
