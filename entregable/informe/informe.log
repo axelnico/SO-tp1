@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.11)  13 APR 2018 18:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.11)  13 APR 2018 19:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -768,9 +768,24 @@ l.147 con addAndInc, sı́
                            con member, y tiene que ser implementada con conc...
 
 ? 
-LaTeX Info: Redefining \. on input line 173.
-LaTeX Info: Redefining \% on input line 173.
-[3] (./informe.aux
+
+Overfull \hbox (0.48416pt too wide) in paragraph at lines 160--162
+[]\OT1/bch/m/n/9 En es-te ejer-ci-cio se im-ple-ment[]o una fun-ci[]on count[]-
+words(list<string>archs) que to-ma co-mo par[]ame- 
+ []
+
+
+Overfull \hbox (6.34312pt too wide) in paragraph at lines 160--162
+\OT1/bch/m/n/9 cia al par crea-do. La fun-ci[]on count[]-words[]-th-reads re-ci
+-be el in-put del par<string*,ConcurrentHashMap*>y 
+ []
+
+LaTeX Info: Redefining \. on input line 175.
+LaTeX Info: Redefining \% on input line 175.
+[3]
+LaTeX Info: Redefining \. on input line 175.
+LaTeX Info: Redefining \% on input line 175.
+ [4] (./informe.aux
 LaTeX Info: Redefining \. on input line 8.
 LaTeX Info: Redefining \% on input line 8.
 )
@@ -783,22 +798,22 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 ### simple group (level 1) entered at line 111 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 7171 strings out of 493029
- 104701 string characters out of 6136233
- 186144 words of memory out of 5000000
- 10563 multiletter control sequences out of 15000+600000
+ 7174 strings out of 493029
+ 104746 string characters out of 6136233
+ 188144 words of memory out of 5000000
+ 10566 multiletter control sequences out of 15000+600000
  21837 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,12n,49p,445b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,12n,49p,833b,442s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</us
 r/share/texlive/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on informe.pdf (3 pages, 412323 bytes).
+Output written on informe.pdf (4 pages, 413751 bytes).
 PDF statistics:
- 33 PDF objects out of 1000 (max. 8388607)
- 21 compressed objects within 1 object stream
+ 36 PDF objects out of 1000 (max. 8388607)
+ 23 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

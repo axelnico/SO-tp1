@@ -151,12 +151,14 @@ array. Si no tienen filas por procesar terminarán su ejecución.
 
 \subsection{Ejercicio 2}
 
-En este ejercicio se implementó una función ConcurrentHashMap count words(string arch) que toma un archivo de texto y devuelve un ConcurrentHashMap cargado con las palabras del archivo. Las palabras se consideran separadas por espacio. Debe ser no concurrente.
+En este ejercicio se implementó una función ConcurrentHashMap count_words(string arch) que toma un archivo de texto y devuelve un ConcurrentHashMap cargado con las palabras del archivo. Las palabras se consideran separadas por espacio. Debe ser no concurrente.
+Para realizar lo pedido la función abre el archivo y llama a la función getline que toma el arhivo, un string y un caracter delimitador. Mientras haya palabras para leer se van cargando en el string y por cada una de ellas se agregan al ConcurrentHashMap usando la función addAndInc implementada en el ejercicio anterior. Una vez que se hayan leido todas las palabras se cierra el archivo.
 
 
 \subsection{Ejercicio 3}
 
-En este ejercicio se implementó una función count words(list<string>archs) que toma como parámetros una lista de archivos de texto y devuelve un ConcurrentHashMap cargado con las palabras. Utiliza un thread por archivo.
+En este ejercicio se implementó una función count_words(list<string>archs) que toma como parámetros una lista de archivos de texto y devuelve un ConcurrentHashMap cargado con las palabras. Utiliza un thread por archivo.
+Para ello se crean tantos pthread_t como archivos se reciben por parametro. Se crean n par<string*,ConcurrentHashMap*> siendo n la cantidad de archivos. Se itera por cada archivo y se carga un par<string*,ConcurrentHashMap> para cada thread. En el mismo se carga el archivo y la referencia de un ConcurrentHashMap. Se llama a la función pthread_create al cual se le pasa el pthread_t creado, la función que va a ser la que va a ejecutar el thread que es count_words_threads y la referencia al par creado. La función count_words_threads recibe el input del par<string*,ConcurrentHashMap*> y llama a la función count_words con el nombre del archivo. Se espera a que todos los threads terminen llamando n veces a la función pthread_join. Se devuelve el ConcurrentHashMap que cargaron los threads.
 
 
 \subsection{Ejercicio 4}
