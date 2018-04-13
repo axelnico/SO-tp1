@@ -342,3 +342,11 @@ pair<string, unsigned int> maximum(unsigned int p_archivos,unsigned int p_maximo
 	return max;
 
 }
+
+/*************************Calcula el maximo usando la version concurrente de countwords ************************/
+
+pair<string, unsigned int>maximum_concurrent(unsigned int p_archivos,unsigned int p_maximos, list<string>archs){
+	ConcurrentHashMap h = count_words(p_archivos, archs);
+	pair<string, unsigned int> max = h.maximum(p_maximos);
+	return max;	
+}

@@ -93,5 +93,6 @@ void * count_row(void * args);
 
 pair<string, unsigned int>maximum(unsigned int p_archivos,unsigned int p_maximos, list<string>archs);
 
+pair<string, unsigned int>maximum_concurrent(unsigned int p_archivos,unsigned int p_maximos, list<string>archs);
 
 #endif /* CONCURRENT_HASH_MAP_H__ */
