@@ -1,0 +1,173 @@
+% ******************************************************** %
+%              TEMPLATE DE INFORME ORGA2 v0.1              %
+% ******************************************************** %
+% ******************************************************** %
+%                                                          %
+% ALGUNOS PAQUETES REQUERIDOS (EN UBUNTU):                 %
+% ========================================
+%                                                          %
+% texlive-latex-base                                       %
+% texlive-latex-recommended                                %
+% texlive-fonts-recommended                                %
+% texlive-latex-extra?                                     %
+% texlive-lang-spanish (en ubuntu 13.10)                   %
+% ******************************************************** %
+
+
+\documentclass[a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}   % tipografia
+\usepackage{graphicx}
+%\usepackage{makeidx}
+\usepackage{paralist} %itemize inline
+
+%\usepackage{float}
+%\usepackage{amsmath, amsthm, amssymb}
+%\usepackage{amsfonts}
+%\usepackage{sectsty}
+%\usepackage{charter}
+%\usepackage{wrapfig}
+\usepackage{listings}
+\lstset{language=C}
+\usepackage{caption}
+\usepackage{color}
+
+% \setcounter{secnumdepth}{2}
+\usepackage{underscore}
+\usepackage{caratula}
+\usepackage{url}
+\usepackage[document]{ragged2e}
+\usepackage[export]{adjustbox}
+\usepackage{subcaption}
+\usepackage{floatrow}
+
+
+% ********************************************************* %
+% ~~~~~~~~              Code snippets             ~~~~~~~~~ %
+% ********************************************************* %
+
+\usepackage{color} % para snipets de codigo coloreados
+\usepackage{fancybox}  % para el sbox de los snipets de codigo
+
+\definecolor{litegrey}{gray}{0.94}
+
+\newenvironment{codesnippet}{%
+	\begin{Sbox}\begin{minipage}{\textwidth}\sffamily\small}%
+	{\end{minipage}\end{Sbox}%
+		\begin{center}%
+		\vspace{-0.4cm}\colorbox{litegrey}{\TheSbox}\end{center}\vspace{0.3cm}}
+
+
+
+% ********************************************************* %
+% ~~~~~~~~         Formato de las páginas         ~~~~~~~~~ %
+% ********************************************************* %
+
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\pagestyle{fancy}
+
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ - #1}}
+
+\fancyhf{}
+
+\fancyhead[LO]{Sección \rightmark} % \thesection\
+\fancyfoot[LO]{\small{Kevin Frachtenberg,Nicolas Bukovits}}
+\fancyfoot[RO]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\setlength{\hoffset}{-0.8in}
+\setlength{\textwidth}{16cm}
+%\setlength{\hoffset}{-1.1cm}
+%\setlength{\textwidth}{16cm}
+\setlength{\headsep}{0.5cm}
+\setlength{\textheight}{25cm}
+\setlength{\voffset}{-0.7in}
+\setlength{\headwidth}{\textwidth}
+\setlength{\headheight}{13.1pt}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{\baselineskip}
+
+\renewcommand{\baselinestretch}{1.1}  % line spacing
+
+% ******************************************************** %
+
+
+\begin{document}
+
+
+\thispagestyle{empty}
+\materia{Sistemas Operativos}
+\submateria{Primer Cuatrimestre de 2018}
+\titulo{Trabajo Práctico 1}
+\subtitulo{Pthreads}
+\integrante{Kevin Frachtenberg}{247/14}{kevinfra94@gmail.com}
+\integrante{Nicolas Bukovits}{546/14}{nicko_buk@hotmail.com}
+\maketitle
+
+%{\small\textbf{\flushleft{Resumen}}\\
+\abstract {En el siguiente trabajo pr\'actico, se realiz\'o una implementaci\'on de un ConcurrentHashMap el cual es una tabla de hash abierta, que significa que en caso de colisión se genera una lista enlazada dentro del bucket. Esta lista tiene la particularidad de poder ser utilizada por threads concurrentes. Su interfaz de uso es como un diccionario. Las claves son strings y los valores son enteros.
+
+%\newpage
+
+%\thispagestyle{empty}
+%\vfill
+
+
+\thispagestyle{empty}
+\vspace{3cm}
+\tableofcontents
+\newpage
+
+
+%\normalsize
+\newpage
+
+
+
+\section{Resolucion de Ejercicios}
+\subsection{Ejercicio 1}
+
+En este ejercicio se completó la implementación del método push_front de la lista atómica provista por la cátedra. El método fue crear un nuevo nodo. Al nuevo nodo se le cargó como nodo siguiente el nodo inicial actualmente. Se compara atomicamente el valor del actual nodo inicial con el siguiente del nuevo nodo inicial. Si son iguales reemplaza el valor del actual nodo incial con el nuevo nodo creado.
+Si no son iguales se vuelve a recuperar el nodo inicial y se intenta nuevamente.
+Luego de haber completado la implementación de la lista se debe implementar la clase ConcurrentHashMap con las siguientes especificaciones: 
+
+  ConcurrentHashMap(): Constructor. Crea la tabla. La misma tendrá 26 entradas (una por
+cada letra del abecedario 1 ). Cada entrada consta de una lista de pares (string, entero). La
+función de hash será la primer letra del string.
+void addAndInc(string key): Si key existe, incrementa su valor, si no existe, crea el par
+(key, 1). Se debe garantizar que sólo haya contención en caso de colisión de hash. Esto es,
+deberá haber locking a nivel de cada elemento del array.
+bool member(string key): true si y solo si el par (key, x) pertenece al hash map para algún
+x. Esta operación deberá ser wait-free.
+pair<string, unsigned int>maximum(unsigned int nt): devuelve el par (k, m) tal que
+k es la clave con máxima cantidad de apariciones y m es ese valor. No puede ser concurrente
+con addAndInc, sı́ con member, y tiene que ser implementada con concurrencia interna. El
+parámetro nt indica la cantidad de threads a utilizar. Los threads procesarán una fila del
+array. Si no tienen filas por procesar terminarán su ejecución.
+
+
+\subsection{Ejercicio 2}
+
+En este ejercicio se implementó una función ConcurrentHashMap count words(string arch) que toma un archivo de texto y devuelve un ConcurrentHashMap cargado con las palabras del archivo. Las palabras se consideran separadas por espacio. Debe ser no concurrente.
+
+
+\subsection{Ejercicio 3}
+
+En este ejercicio se implementó una función count words(list<string>archs) que toma como parámetros una lista de archivos de texto y devuelve un ConcurrentHashMap cargado con las palabras. Utiliza un thread por archivo.
+
+
+\subsection{Ejercicio 4}
+En este ejericio se implementó una función count words(unsigned int n, list<string>archs) que hace lo mismo que la anterior función pero utiliza n threads, pudiendo ser n menor que la cantidad de archivos.
+
+\subsection{Ejercicio 5}
+En este ejercicio se implementó una función maximum(unsigned int p archivos,
+unsigned int p maximos, list<string>archs) que retorna un par con un string como primer elemento que representa la palabra que mas apariciones tiene y un entero como segundo elemento que es la cantidad de apariciones. Utiliza p_threads threads para leer los archivos y p_maximos threads para calcular los máximos. No se utilizó las versiones concurrentes de la función count_words.
+
+
+\subsection{Ejercicio 6}
+
+En este ejercicio se implementó la misma funcionalidad del ejercicio anterior pero utilizando las versiones concurrentes de count_words.
+\end{document}
