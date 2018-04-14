@@ -9,7 +9,7 @@ LDLIBS = -lpthread
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -c $<
 
-BIN = test-2 test-3 test-5
+BIN = test-2 test-3 test-5 max-compare
 OBJ = ConcurrentHashMap.o
 
 all: $(BIN)
@@ -44,6 +44,19 @@ test-5-run: test-5
 		./test-5 $$((i + 1)) $$((j + 1)) | diff -u - corpus-max; \
 	done; done
 	rm -f corpus-max corpus-[0-4]
+
+max-compare: $(OBJ) max-compare.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ max-compare.cpp $(OBJ) $(LDLIBS)
+
+max-compare-run: max-compare
+	awk -f corpus.awk corpus | sort -nk 2 | tail -n 1 >corpus-max
+	cat corpus-max
+	for i in 0 1 2 3 4; do sed -n "$$((i * 500 + 1)),$$(((i + 1) * 500))p" corpus >corpus-"$$i"; done
+	for i in 0 1 2 3 4; do for j in 0 1 2 3 4; do \
+		./max-compare $$((i + 1)) $$((j + 1)) | diff -u - corpus-max; \
+	done; done
+	rm -f corpus-max corpus-[0-4]
+
 
 clean:
 	rm -f $(BIN) $(OBJ)
