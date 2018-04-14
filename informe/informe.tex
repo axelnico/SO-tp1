@@ -134,20 +134,23 @@ En este ejercicio se completó la implementación del método push_front de la l
 Si no son iguales se vuelve a recuperar el nodo inicial y se intenta nuevamente.
 Luego de haber completado la implementación de la lista se debe implementar la clase ConcurrentHashMap con las siguientes especificaciones: 
 
-  ConcurrentHashMap(): Constructor. Crea la tabla. La misma tendrá 26 entradas (una por
-cada letra del abecedario 1 ). Cada entrada consta de una lista de pares (string, entero). La
-función de hash será la primer letra del string.
-void addAndInc(string key): Si key existe, incrementa su valor, si no existe, crea el par
-(key, 1). Se debe garantizar que sólo haya contención en caso de colisión de hash. Esto es,
-deberá haber locking a nivel de cada elemento del array.
-bool member(string key): true si y solo si el par (key, x) pertenece al hash map para algún
-x. Esta operación deberá ser wait-free.
-pair<string, unsigned int>maximum(unsigned int nt): devuelve el par (k, m) tal que
-k es la clave con máxima cantidad de apariciones y m es ese valor. No puede ser concurrente
-con addAndInc, sı́ con member, y tiene que ser implementada con concurrencia interna. El
-parámetro nt indica la cantidad de threads a utilizar. Los threads procesarán una fila del
-array. Si no tienen filas por procesar terminarán su ejecución.
+\begin{itemize}
 
+\item ConcurrentHashMap(): Constructor .Crea la tabla. La misma tendrá 26 entradas (una por
+cada letra del abecedario). Cada entrada consta de una lista de pares (string, entero). La
+función de hash será la primer letra del string. Para ello se crea una nueva lista en cada una de las entradas y se inicializan los mutex de cada entrada de la tabla llamando a la función pthread_mutex_init.\blindtext
+\item void addAndInc(string key): Si key existe, incrementa su valor, si no existe, crea el par
+(key, 1). Se debe garantizar que sólo haya contención en caso de colisión de hash. Esto es,
+deberá haber locking a nivel de cada elemento del array. Para implementarlo primero se obtiene la posición en la tabla usando la función de hash. Se pide el mutex de la entrada correspondiente y si la clave no esta definida se agrega al principio de la lista el par (key,0). Se realiza un unlock de la entrada y se recorre toda la lista de la posición en la tabla usando el iterador. Cuando se encuentra a la clave se pide el mutex y se incrementa en uno el valor entero del par (clave,valor). Luego se vuelve a desloquear la entrada.\blindtext
+\item bool member(string key): true si y solo si el par (key, x) pertenece al hash map para algún
+x. Esta operación deberá ser wait-free. Simplemente esta función recupera la posición en la tabla y con el iterador recorre la lista. Si encuentra la clave definida devuelve verdadero. 
+\item pair<string, unsigned int>maximum(unsigned int nt): devuelve el par (k, m) tal que
+k es la clave con máxima cantidad de apariciones y m es ese valor. No puede ser concurrente
+con addAndInc, si con member, y tiene que ser implementada con concurrencia interna. El
+parámetro nt indica la cantidad de threads a utilizar. Los threads procesarán una fila del
+array. Si no tienen filas por procesar terminarán su ejecución. La implementación consistió en definir un entero atómico y un Elem atómico que se van a usar para llevar registro de la cantidad de posiciones de la tabla a analizar y el elemento máximo encontrado. Se crean los nt threads, se pide el mutex de todas las entradas de la tabla, se cargan todas las estructuras auxiliares que van a usar los threads y se lanzan a correr los threads a los cuales se le pasa como paŕametro una función max_thread. La misma incrementa en uno atómicamente a la variable siguiente y mientras siguiente sea menos que 26, se recorre la lista en cada posicion y se va actualizando atomicamente el valor del Elem atómico que representa el máximo. Se espera a que todos los threads terminen y se hace un unlock de todas las entradas de la tabla.
+
+\end{itemize}
 
 \subsection{Ejercicio 2}
 
@@ -162,11 +165,10 @@ Para ello se crean tantos pthread_t como archivos se reciben por parametro. Se c
 
 
 \subsection{Ejercicio 4}
-En este ejericio se implementó una función count words(unsigned int n, list<string>archs) que hace lo mismo que la anterior función pero utiliza n threads, pudiendo ser n menor que la cantidad de archivos.
+En este ejercicio se implementó una función count_words(unsigned int n, list<string>archs) que hace lo mismo que la anterior función pero utiliza n threads, pudiendo ser n menor que la cantidad de archivos. Similar a la función anterior pero crea n threads. Se le pasa a cada thread una estructura que contiene el nombre de los archivos y mientras no se hayan cargado todos los archivos los threads llaman a la función count_words(file,ConcurrentHashMap).
 
 \subsection{Ejercicio 5}
-En este ejercicio se implementó una función maximum(unsigned int p archivos,
-unsigned int p maximos, list<string>archs) que retorna un par con un string como primer elemento que representa la palabra que mas apariciones tiene y un entero como segundo elemento que es la cantidad de apariciones. Utiliza p_threads threads para leer los archivos y p_maximos threads para calcular los máximos. No se utilizó las versiones concurrentes de la función count_words.
+En este ejercicio se implementó una función maximum(unsigned int p_archivos, unsigned int p_maximos, list<string>archs) que retorna un par con un string como primer elemento que representa la palabra que mas apariciones tiene y un entero como segundo elemento que es la cantidad de apariciones. Utiliza p_threads threads para leer los archivos y p_maximos threads para calcular los máximos. No se utilizó las versiones concurrentes de la función count_words. Similar al maximum pero crea p_archivos threads para leer los archivos que funciona como el ejercicio anterior y utiliza p_maximos threads que llenan un ConcurrentHashMap general al que despúes se le calcula el maximo usando la función maximun.
 
 
 \subsection{Ejercicio 6}

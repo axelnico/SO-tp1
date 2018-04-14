@@ -74,7 +74,7 @@ void * max_thread(void * args){
 		}
 		next = atomic_fetch_add(inf->siguiente,1);
 	}
-	/* Si no quedan mas entradas de la tabla para reccorer terminamos. */
+	/* Si no quedan mas entradas de la tabla para recorrer terminamos. */
 	return NULL;
 }
 
