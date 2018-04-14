@@ -172,4 +172,8 @@ unsigned int p maximos, list<string>archs) que retorna un par con un string como
 \subsection{Ejercicio 6}
 
 En este ejercicio se implementó la misma funcionalidad del ejercicio anterior pero utilizando las versiones concurrentes de count_words.
+
+\section{Detalles implementativos}
+La clase ConcurrentHashMap es una clase compuesta de un array de listas enlazadas que representan la tabla de Hash y un array de locks, ambos arrays de tamaño 26 ya que es la cantidad de letras posibles. \newline
+Al comienzo del trabajo practico, mientras implementabámos el constructor, se nos ocurrió también implementar el destructor, para que de esa forma la clase sea coherente. Sin embargo, al desarrollar la implementación de {\tt ConcurrentHashMap count_words(string archivo)} observamos que lo que devolvía la funcion era un ConcurrentHashMap con basura o vacio, a pesar de que dentro de la funcion construía bien el diccionario. Luego de investigar el problema, llegamos a la conclusión de que el problema se daba al momento de realizar la copia del resultado: primero se llamaba al destructor y luego se copiaban las referencias, y por eso se generaba el ConcurrentHashMap con basura o vacío. La soluciones posibles en ese momento eran redefinir la copia o quitar el destructor, pero por sugerencia de un docente, decidimos eliminar el destructor.
 \end{document}

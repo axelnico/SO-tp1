@@ -6,3 +6,4 @@
 \contentsline {subsection}{\numberline {1.4}Ejercicio 4}{3}
 \contentsline {subsection}{\numberline {1.5}Ejercicio 5}{3}
 \contentsline {subsection}{\numberline {1.6}Ejercicio 6}{4}
+\contentsline {section}{\numberline {2}Detalles implementativos}{4}
