@@ -47,6 +47,11 @@ class ConcurrentHashMap {
 			
 		/****************** maximum ********************/
 		pair<string,unsigned int> maximum(unsigned int nt);
+
+		/****************** Solo para testing **********/
+		bool add(string key);
+		unsigned int inc(string key);
+		unsigned int count_word(string key);
 };
 
 /* Info que le pasamos a un thread para calcular el maximo */

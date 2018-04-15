@@ -350,3 +350,36 @@ pair<string, unsigned int>maximum_concurrent(unsigned int p_archivos,unsigned in
 	pair<string, unsigned int> max = h.maximum(p_maximos);
 	return max;	
 }
+
+
+/************************* Solo para testing ************************/
+bool ConcurrentHashMap::add(string key) {
+    // Asumo que no esta definida la key en el hashmap
+    int h = hash(key);
+    tabla[h]->push_front(make_pair(key,0));
+    return true;
+}
+
+unsigned int ConcurrentHashMap::inc(string key) {
+    int h = hash(key);
+    unsigned int total;
+    for (auto it = tabla[h]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
+        if (it.Siguiente().first == key) {
+            total = ++it.Siguiente().second;
+            break;
+        }
+    }
+    return total;
+}
+
+unsigned int ConcurrentHashMap::count_word(string key) {
+	int h = hash(key);
+	unsigned int total = 0;
+	for (auto it = tabla[h]->CrearIt(); it.HaySiguiente(); it.Avanzar()) {
+		if (it.Siguiente().first == key) {
+			total = it.Siguiente().second;
+			break;
+		}
+	}
+	return total;
+}
