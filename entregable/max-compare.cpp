@@ -26,8 +26,8 @@ int main(int argc, char **argv) {
     clock_gettime( CLOCK_REALTIME, &stop2);
 
     if (p == threaded_p) {
-        cout << "Sin threads: " << ( stop1.tv_nsec - start1.tv_nsec ) / mil << endl;
-        cout << "Con threads: " << ( stop2.tv_nsec - start2.tv_nsec ) / mil << endl;
+        cout << ( stop1.tv_nsec - start1.tv_nsec ) / mil;
+        cout << " " << ( stop2.tv_nsec - start2.tv_nsec ) / mil << endl;
     }
 
 

@@ -60,4 +60,3 @@ max-compare-run: max-compare
 
 clean:
 	rm -f $(BIN) $(OBJ)
-	rm -f corpus-*
