@@ -42,13 +42,12 @@ if [[ $option = 1 ]]; then
 fi
 
 if [[ $option > 1 ]]; then
-	rm multi
 	echo "corriendo comparacion entre multithread hasta ($option) threads"
 	cd ../entregable
 	for ((t = 1; t <= $option; t=t+1)); do
-		echo "$t threads" >> ../scripts/multi
+		rm multi-$t
 		for (( i = 0; i < 500; i=i+1 )); do
-			./max-compare 5 $t >> ../scripts/multi
+			./max-compare 5 $t >> ../scripts/multi-$t
 		done
 	done
 	cd ../scripts
