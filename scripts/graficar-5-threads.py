@@ -9,46 +9,27 @@ arr2 = np.genfromtxt("multi-2")
 arr3 = np.genfromtxt("multi-3")
 arr4 = np.genfromtxt("multi-4")
 arr5 = np.genfromtxt("multi-5")
-arr6 = np.genfromtxt("multi-6")
-arr7 = np.genfromtxt("multi-7")
-arr8 = np.genfromtxt("multi-8")
-arr9 = np.genfromtxt("multi-9")
-arr10 = np.genfromtxt("multi-10")
-con1Thread = [row[1] for row in arr1]
-con2Thread = [row[1] for row in arr2]
-con3Thread = [row[1] for row in arr3]
-con4Thread = [row[1] for row in arr4]
-con5Thread = [row[1] for row in arr5]
-con6Thread = [row[1] for row in arr6]
-con7Thread = [row[1] for row in arr7]
-con8Thread = [row[1] for row in arr8]
-con9Thread = [row[1] for row in arr9]
-con10Thread = [row[1] for row in arr10]
+max1Thread = [row[0] for row in arr1]
+max2Thread = [row[0] for row in arr2]
+max3Thread = [row[0] for row in arr3]
+max4Thread = [row[0] for row in arr4]
+max5Thread = [row[0] for row in arr5]
 
-conThreadsAvg = np.mean(con1Thread)
-print conThreadsAvg
+maxConcurrente1Thread = [row[1] for row in arr1]
+maxConcurrente2Thread = [row[1] for row in arr2]
+maxConcurrente3Thread = [row[1] for row in arr3]
+maxConcurrente4Thread = [row[1] for row in arr4]
+maxConcurrente5Thread = [row[1] for row in arr5]
 
-conThreadsAvg = np.mean(con2Thread)
-print conThreadsAvg
+print np.mean(max1Thread), np.mean(maxConcurrente1Thread)
 
-conThreadsAvg = np.mean(con3Thread)
-print conThreadsAvg
+print np.mean(max2Thread), np.mean(maxConcurrente2Thread)
 
-conThreadsAvg = np.mean(con4Thread)
-print conThreadsAvg
+print np.mean(max3Thread), np.mean(maxConcurrente3Thread)
 
-conThreadsAvg = np.mean(con5Thread)
-print conThreadsAvg
-conThreadsAvg = np.mean(con6Thread)
-print conThreadsAvg
-conThreadsAvg = np.mean(con7Thread)
-print conThreadsAvg
-conThreadsAvg = np.mean(con8Thread)
-print conThreadsAvg
-conThreadsAvg = np.mean(con9Thread)
-print conThreadsAvg
-conThreadsAvg = np.mean(con10Thread)
-print conThreadsAvg
+print np.mean(max4Thread), np.mean(maxConcurrente4Thread)
+
+print np.mean(max5Thread), np.mean(maxConcurrente5Thread)
 
 # arrr = np.genfromtxt("multi")
 
@@ -60,7 +41,7 @@ print conThreadsAvg
 # fig, ax1 = plt.subplots()
 # plt.bar(x, bars)
 # ax1.set_xticks(x)
-# ax1.set_xticklabels(['Sin threads', 'Con 1 thread'])
+# ax1.set_xticklabels(['Sin threads', 'max 1 thread'])
 
 # ax1.set_ylabel('Cantidad de ciclos de Clock')
 

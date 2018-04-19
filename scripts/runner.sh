@@ -23,7 +23,6 @@ if [[ $option = "none" ]]; then
 	echo ""
 	echo "    Opciones disponibles:"
 	echo "        -h    		  Imprime este texto de ayuda."
-	echo "        -s    		  Realiza la comparacion de a un thread"
 	echo "        -t <#threads>   Realiza la comparacion solamente entre multithreds con un maximo de t threads"
 	echo ""
 	exit 0
@@ -31,25 +30,16 @@ fi
 
 make clean -C ../entregable
 make -C ../entregable
-if [[ $option = 1 ]]; then
-	rm single
-    echo "corriendo comparacion entre max single y max multithread con 1 thread"
-	cd ../entregable
-	for (( i = 0; i < 500; i=i+1 )); do
-		./max-compare 5 1 >> ../scripts/single
-	done
-	cd ../scripts
-fi
 
 if [[ $option > 1 ]]; then
 	echo "corriendo comparacion entre multithread hasta ($option) threads"
 	cd ../entregable
+	rm multi-*
 	for ((t = 1; t <= $option; t=t+1)); do
-		rm multi-$t
 		for (( i = 0; i < 500; i=i+1 )); do
-			./max-compare 5 $t >> ../scripts/multi-$t
+			./max-compare $t 5 >> ../scripts/multi-$t
 		done
 	done
 	cd ../scripts
 fi
-# done
+
