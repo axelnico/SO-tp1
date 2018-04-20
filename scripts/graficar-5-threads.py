@@ -21,15 +21,8 @@ maxConcurrente3Thread = [row[1] for row in arr3]
 maxConcurrente4Thread = [row[1] for row in arr4]
 maxConcurrente5Thread = [row[1] for row in arr5]
 
-print np.mean(max1Thread), np.mean(maxConcurrente1Thread)
-
-print np.mean(max2Thread), np.mean(maxConcurrente2Thread)
-
-print np.mean(max3Thread), np.mean(maxConcurrente3Thread)
-
-print np.mean(max4Thread), np.mean(maxConcurrente4Thread)
-
-print np.mean(max5Thread), np.mean(maxConcurrente5Thread)
+print int(np.mean(max1Thread)), int(np.mean(max2Thread)), int(np.mean(max3Thread)), int(np.mean(max4Thread)), int(np.mean(max5Thread))
+print int(np.mean(maxConcurrente1Thread)), int(np.mean(maxConcurrente2Thread)), int(np.mean(maxConcurrente3Thread)), int(np.mean(maxConcurrente4Thread)), int(np.mean(maxConcurrente5Thread))
 
 # arrr = np.genfromtxt("multi")
 

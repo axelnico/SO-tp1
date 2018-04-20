@@ -1,3 +1,4 @@
+#!/bin/bash
 option="none"
 while getopts 'hst:' opt; do
 	case $opt in
