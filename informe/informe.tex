@@ -180,7 +180,13 @@ Para comparar resultados, creamos un archivo max-compare que sirve para ejecutar
 
 \includegraphics[scale=0.35]{imagenes/chart.jpeg}
 
-\section{Detalles implementativos}
-La clase ConcurrentHashMap es una clase compuesta de un array de listas enlazadas que representan la tabla de Hash y un array de locks, ambos arrays de tamaño 26 ya que es la cantidad de letras posibles. \newline
-Al comienzo del trabajo practico, mientras implementabámos el constructor, se nos ocurrió también implementar el destructor, para que de esa forma la clase sea coherente. Sin embargo, al desarrollar la implementación de {\tt ConcurrentHashMap count_words(string archivo)} observamos que lo que devolvía la funcion era un ConcurrentHashMap con basura o vacio, a pesar de que dentro de la funcion construía bien el diccionario. Luego de investigar el problema, llegamos a la conclusión de que el problema se daba al momento de realizar la copia del resultado: primero se llamaba al destructor y luego se copiaban las referencias, y por eso se generaba el ConcurrentHashMap con basura o vacío. La soluciones posibles en ese momento eran redefinir la copia o quitar el destructor, pero por sugerencia de un docente, decidimos eliminar el destructor.
+Se esperaba que la funcion maximum_concurrent ejecute mas rápido que la función maximum. Sin embargo luego de ver los resultados de la exerimentación y analizar el código se llegó a la conclusión de que la función maximum es más rápida ya que hace un mejor uso de los threads. Se observó que a mayor cantidad de threads los tiempos de ejecución diminuían para ambas funciones.
+
+
+\section{Detalles implementativos y pruebas}
+Para seguir las consignas del enunciado en las cuales se pedia que solamente las funciones del primer ejercicio pertenezcan a la clase ConcurrentHashMap, fue necesario modificar los tests provistos por la catedra, ya que asumian que funciones como el count_words estaban en el namespace de la clase ConcurrentHashMap, cuando en realidad no.
+\newline
+Se agregó el archivo test-1.cpp el cual incluye tests particulares sobre ConcurrentHashMap. El archivo tiene tres partes en el cual se prueban las funciones member,addAndInc y maximum del ConcurrentHashMap, las cuales para poder ejecutarse prueban también el constructor del mismo. Para poder realizar los tests fue necesario agregar funciones auxiliares que se usan para este fin las cuales son add, Inc y count_word. Estas funciones fueron agregadas para testear member,addAndInc y maximum sin asumir que las demas funcionan excepto el maximum. Los tests se desarrollaron de manera incremental empezando con member, luego una vez que se testeo correctamente member, se testeó addAndInc y finalmente maximum.
+
+
 \end{document}
