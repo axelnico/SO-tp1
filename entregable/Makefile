@@ -19,6 +19,9 @@ $(BIN): ListaAtomica.hpp
 test-1: $(OBJ) test-1.cpp
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ test-1.cpp $(OBJ) $(LDLIBS)
 
+test-1-run: test-1
+	./test-1
+
 test-2: $(OBJ) test-2.cpp
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ test-2.cpp $(OBJ) $(LDLIBS)
 	
