@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  20 APR 2018 02:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  20 APR 2018 02:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,28 +769,41 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout4 = `informe.toc'.
 
  [2]
-! Undefined control sequence.
-l.142 ...la función pthread_mutex_init.\blindtext
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.145 ...vuelve a desloquear la entrada.\blindtext
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+! LaTeX Error: \begin{document} ended by \end{itemize}.
 
-LaTeX Info: Redefining \. on input line 166.
-LaTeX Info: Redefining \% on input line 166.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 \end{itemize}
+                   
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.145 \end{itemize}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.145 \end{itemize}
+                   
+Things are pretty mixed up, but I think the worst is over.
+
+LaTeX Info: Redefining \. on input line 157.
+LaTeX Info: Redefining \% on input line 157.
 [3]
-Overfull \hbox (0.87808pt too wide) in paragraph at lines 169--170
+Overfull \hbox (0.87808pt too wide) in paragraph at lines 159--160
 []\OT1/bch/m/n/9 En es-te ejer-ci-cio se im-ple-ment[]o una fun-ci[]on \OT1/cmt
 t/m/n/9 count_-words(unsigned int n, list<string>archs) 
  []
@@ -798,18 +811,18 @@ t/m/n/9 count_-words(unsigned int n, list<string>archs)
 <imagenes/chart.jpeg, id=20, 1204.5pt x 803.0pt>
 File: imagenes/chart.jpeg Graphic file (type jpg)
  <use imagenes/chart.jpeg>
-Package pdftex.def Info: imagenes/chart.jpeg used on input line 181.
+Package pdftex.def Info: imagenes/chart.jpeg used on input line 171.
 (pdftex.def)             Requested size: 421.58131pt x 281.05421pt.
 
-Overfull \hbox (29.8373pt too wide) in paragraph at lines 181--182
+Overfull \hbox (29.8373pt too wide) in paragraph at lines 171--172
 [][]  
  []
 
-LaTeX Info: Redefining \. on input line 183.
-LaTeX Info: Redefining \% on input line 183.
+LaTeX Info: Redefining \. on input line 173.
+LaTeX Info: Redefining \% on input line 173.
 [4]
-LaTeX Info: Redefining \. on input line 192.
-LaTeX Info: Redefining \% on input line 192.
+LaTeX Info: Redefining \. on input line 182.
+LaTeX Info: Redefining \% on input line 182.
  [5 <./imagenes/chart.jpeg>] (./informe.aux
 LaTeX Info: Redefining \. on input line 8.
 LaTeX Info: Redefining \% on input line 8.
@@ -817,27 +830,23 @@ LaTeX Info: Redefining \% on input line 8.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
- )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 111 ({)
-### bottom level 
+ ) 
 Here is how much of TeX's memory you used:
- 7238 strings out of 492995
- 106424 string characters out of 6132704
- 192226 words of memory out of 5000000
- 10643 multiletter control sequences out of 15000+600000
+ 7236 strings out of 492995
+ 106404 string characters out of 6132704
+ 191226 words of memory out of 5000000
+ 10641 multiletter control sequences out of 15000+600000
  22004 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,13n,49p,889b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc
-}</usr/local/texlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></
-usr/local/texlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr
-/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/l
-ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/lo
-cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loc
-al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on informe.pdf (5 pages, 483780 bytes).
+ 39i,13n,49p,889b,396s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texl
+ive/2017/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive
+/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2
+017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/20
+17/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/201
+7/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on informe.pdf (5 pages, 484252 bytes).
 PDF statistics:
  48 PDF objects out of 1000 (max. 8388607)
  31 compressed objects within 1 object stream

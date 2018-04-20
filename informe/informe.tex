@@ -146,15 +146,14 @@ tabla. Si no tienen filas por procesar terminarán su ejecución. La implementac
 
 \subsection{Ejercicio 2}
 
-En este ejercicio se implementó una función ConcurrentHashMap count_words(string arch) que toma un archivo de texto y devuelve un ConcurrentHashMap cargado con las palabras del archivo. Las palabras se consideran separadas por espacio. Debe ser no concurrente.
-Para realizar lo pedido la función abre el archivo y llama a la función getline que toma el arhivo, un string y un caracter delimitador. Mientras haya palabras para leer se van cargando en el string y por cada una de ellas se agregan al ConcurrentHashMap usando la función addAndInc implementada en el ejercicio anterior. Una vez que se hayan leido todas las palabras se cierra el archivo.
-
+En este ejercicio se implementó una función ConcurrentHashMap {\tt count_words(string arch)} que toma un archivo de texto y devuelve un ConcurrentHashMap cargado con las palabras del archivo. Las palabras se consideran separadas por espacio. Por especificación, no es concurrente.
+Su funcionamiento consiste en abrir el archivo y llamar a la función getline que toma el arhivo, un string y un caracter delimitador. Mientras haya palabras para leer se cargan en el string y por cada una de ellas se agregan al ConcurrentHashMap usando la función addAndInc implementada en el ejercicio anterior. Una vez que se hayan leido todas las palabras se cierra el archivo.
+Se puede asegurar que esta funcion no es concurrente ya que si bien addAndInc soporta el uso de multithreading, en esta función no se crean threads.
 
 \subsection{Ejercicio 3}
 
 En este ejercicio se implementó una función {\tt count_words(list<string>archs)} que toma como parámetros una lista de archivos de texto y devuelve un ConcurrentHashMap cargado con las palabras. Utiliza un thread por archivo.
 Para ello se crean tantos pthread_t como archivos se reciben por parametro. Se crean n {\tt pair$<$string*,ConcurrentHashMap*$>$} siendo n la cantidad de archivos. Se itera por cada archivo y se carga un {\tt pair$<$string*,ConcurrentHashMap*$>$} para cada thread. En el mismo se carga el archivo y la referencia de un ConcurrentHashMap. Se llama a la función {\tt pthread_create} al cual se le pasa el pthread_t creado, la función que va a ser la que va a ejecutar el thread que es count_words_threads y la referencia al par creado. La función {\tt count_words_threads} recibe el input del {\tt pair$<$string*,ConcurrentHashMap*$>$} y llama a la función {\tt count_words} con el nombre del archivo. Se espera a que todos los threads terminen llamando n veces a la función {\tt pthread_join}. Se devuelve el ConcurrentHashMap que cargaron los threads.
-
 
 \subsection{Ejercicio 4}
 En este ejercicio se implementó una función {\tt count_words(unsigned int n, list<string>archs)} que hace lo mismo que la anterior función pero utiliza n threads, pudiendo ser n menor que la cantidad de archivos. Similar a la función anterior pero crea n threads. Se le pasa a cada thread una estructura que contiene el nombre de los archivos y mientras no se hayan cargado todos los archivos los threads llaman a la función {\tt count_words(file,ConcurrentHashMap)}.
